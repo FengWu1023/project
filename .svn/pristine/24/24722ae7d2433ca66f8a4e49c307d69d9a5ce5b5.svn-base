@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邮乐登录</title>
+    <link rel="stylesheet" href="css/public.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <style>
+        .logo {
+            height: 90px;
+            border-bottom: 3px solid red;
+            padding-top: 20px;
+        }
+
+        .login {
+            height: 450px;
+            background: #f7f7f7;
+            padding-top: 20px;
+        }
+
+        .login .layout {
+            background: #fff;
+            height: 450px;
+            overflow: hidden;
+
+        }
+
+        .login h3 {
+            font: 20px/2.5 "";
+
+
+
+        }
+
+        .login form {
+            height: 430px;
+            width: 290px;
+            padding-left: 30px;
+            background: #fff;
+            margin: 10px 0 0 700px;
+            position: relative;
+
+        }
+
+
+        .login input {
+            width: 240px;
+            height: 30px;
+            border: 1px solid #ccc;
+            margin: 20px 0 10px 0;
+            padding-left: 10px;
+        }
+
+        .code {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .login .layout {
+            background: url("imgs/banner5.jpg");
+        }
+
+        #login-btn {
+            background: red;
+            display: block;
+            width: 250px;
+            font: 18px/2 "";
+            text-align: center;
+            color: #fff;
+            font-weight: 800;
+            margin-top: 15px;
+        }
+        form span a {color:blue;font:12px/2 "";}
+        .pForget {margin-left:65px;}
+        .qq {position: absolute;bottom: 20px;left: 15px;}
+        .warn {color:red;margin-left: 10px; font:12px/20px "";}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top layout"></div>
+    </header>
+    <section class="logo">
+        <div class="layout">
+            <img src="imgs/logo.png" />
+        </div>
+    </section>
+    <section class="login">
+        <div class="layout">
+
+            <form>
+                <img src="imgs/code2.png" class="code" />
+                <h3>用户登录</h3>
+                <div class="table">
+                    <div class="field">
+
+                        <input type="text" id="login-tel" name="" placeholder="手机号码">
+                        <span id="tel-warn"></span>
+                    </div>
+                    <p class="warn"></p> 
+                    <div class="field">
+
+                        <input type="password" id="login-key" name="" placeholder="用户密码">
+                        <span id="key-warn"></span>
+                    </div>
+
+                    <span><a href="register.html">还没有账号？立即注册</a><a class="pForget">忘记密码 ?</a></span>
+                    <div class="field">
+                        <a id="login-btn">立即登录</a>
+                    </div>
+                </div>
+                <img src="imgs/qq.png" class="qq"/>
+            </form>
+        </div>
+    </section>
+    <footer></footer>
+</body>
+<script src="libs/jquery.js"></script>  
+<script src="libs/cookie.js"></script>
+
+<script>
+    $(function () {
+        $(".top").load("html/header.html");
+        $("footer").load("html/footer.html",function(){
+            $.getScript("javascript/header.js")
+        })
+
+    })
+
+    var oTel = document.getElementById("login-tel");
+    var oKey = document.getElementById("login-key");
+    var oLbtn = document.getElementById("login-btn");
+    var warn = document.querySelector(".warn");
+
+
+
+oLbtn.onclick = function() {
+       //点击登陆时，增加正则去判断（3）
+      
+        //去判断这两个和库中是否相同 oTel.value  oKey.value;
+        if (getCookie("bank")) { 
+            var arrBank = getCookie("bank").split("&");
+            var boo = false;
+            for (var i = 0; i < arrBank.length; i++) {
+                var obj = convertCartStrToObj(arrBank[i]);
+                if (oTel.value == obj.tel) {//通过对象.属性的方法获取手机号，并与文本框输入对比（3）
+                     if(oKey.value == obj.key){  //通过对象.属性的方法获取密码，并与文本框输入对比（4）
+                        alert("登陆成功")
+                
+                        window.location.href = "index.html";
+                        return;
+                     }else{
+                        warn.innerHTML = "&times; &nbsp密码错误请重新输入";
+                        oKey.innerHTMl = "";
+                        return;
+                     }
+                 var boo = true;
+                }
+            }
+            if(oTel.value==null){
+                warn.innerHTML = "&times;&nbsp 用户为空请重新输入";
+            }else{
+                warn.innerHTML = "&times;&nbsp 这个用户不存在";
+            }
+           
+        }
+        warn.innerHTML = "&times;&nbsp 用户为空,请重新输入";
+    }
+    function convertCartStrToObj(cartStr) {
+    var obj = {};
+    //将字符串name:17dian,key:123456,tel:18810701077 按“,”拆分成数组["name:17dian", "key:123456", "tel:18810701077"]
+    var arrVal = cartStr.split(",");
+    for (var i = 0; i < arrVal.length; i++) {
+        data = arrVal[i].split(":"); // 在将每一项拆分 例如arrVal[0]时 data =["name", "17dian"]
+        console.log(data)
+        obj[data[0]] = data[1]; //给对象添加属性
+    }
+    return obj;
+}
+
+    
+</script>

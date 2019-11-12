@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邮乐商品列表</title>
+    <link rel="stylesheet" href="css/public.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <style>
+        .logo {height:80px;padding-top:20px}
+        .list {height:800px;}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top layout"></div>
+    </header>
+    <section class="logo">
+        <div class="layout">
+            <img src="imgs/logo.png" />
+        </div>
+    </section>
+    <section class="list"> 
+        
+    </section>
+
+        
+    </section>
+    <footer></footer>
+</body>
+<script src="libs/jquery.js"></script>
+<script src="libs/cookie.js"></script>
+<script>
+     $(function () {
+        $(".top").load("html/header.html");
+        $("footer").load("html/footer.html",function(){
+            $.getScript("javascript/header.js");
+        })
+
+    })
+
+    $.ajax({
+    url: "http://localhost/project/data/data.json",
+    dataType: "json",
+    success: function (data) {
+        var arr=[];
+        console.log(data);
+        for(var i=0;i<data.length;i++){
+            if(data[i].type.indexOf("苹果")!=-1){
+                arr.push(i+1);
+            }
+        }
+        console.log(arr)
+    },
+    error: function (a, b, c) {
+        console.log(b)
+        console.log(c)
+    }
+})
+
+
+    //用ajax 得到数据， 遍历对象  
+    //然后用indexof方法 找到type里面有我点击类型的商品 渲染
+</script>
