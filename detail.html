@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>商品详情页</title>
     <link rel="stylesheet" href="css/public.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/footer.css" />
@@ -12,7 +12,7 @@
  
     <style>
         
-         .search {height:100px;display: flex;justify-content: space-between;align-items: center;}
+        .search {height:100px;display: flex;justify-content: space-between;align-items: center;}
         .search .search-c input{float:left;margin-bottom: 8px;}
         .search .search-c input:first-child {width: 450px;height:30px;border:3px solid #c7181d;padding-left:10px;}
         .search .search-c input[type="submit"] {border:0;background:#c7181d url(imgs/search.png) no-repeat;background-position: center;width:73px; height:36px}
@@ -25,10 +25,33 @@
         .search a i {background: url(imgs/down.png) no-repeat;display: block;height:6px;width:7px;margin-left: 28px;}
         .search a span {margin:0 27px 0 10px;}
         #location {font:14px/3 "";border-bottom: 1px solid #ccc;margin-bottom: 10px;overflow: hidden;height:42px;}
-        #main{height:1000px;}
+        #main{height:600px;padding:30px 0 0 30px;}
         .hizoom {float:left}
-        .introduce {float:left}
+        .introduce {float:left;height:400px}
+        .introduce h3 {font:18px/50px "";margin-left: 30px;border-bottom:1px dashed #ccc;width: 500px; overflow: hidden;height:50px;}
+        .introduce .introduce-1 {width: 600px;height:450px;font:15px/3 "";padding-top:10px;margin-left: 150px;}
         .hizoom img {height:400px;width: 400px;}
+        input.number {width: 50px;height:30px;border:1px solid #ccc;text-align: center;}
+        .introduce-1 p:nth-child(4) {color:#666;}
+        .introduce-1 p i {color:#000}
+        .introduce-1 span s {color:red;}
+        .introduce-1 .button a {width: 100px;height:40px;background: red;font:15px/40px "";color:#fff;display: block;text-align: center;}
+        .introduce-1 .button a {float:left;margin:20px;}
+        .introduce-1 .button a:nth-child(2) {background: orange;}
+        #main ul{height:100px;}
+        #main ul li {float:left;width: 70px;height:70px;margin:13px;}
+        #main ul li img {width: 100%;height:100%}
+        .price span {font-size:25px; color:red;font-weight: 800;}
+        .main-top {height:450px;}
+        .tab ul {font:15px/40px ""; height:40px;border-bottom:3px solid red}
+        .tab ul li {float:left;width:150px;text-align: center;border-right:#666 1px dashed;background: #ccc;}
+        .tab ul li.active {background: red;color:white}
+        .detail img {display: block;margin:0 auto;width: 800px;}
+        .comment {display: none;}
+        .express {margin:20px 0 0 30px;display: none;}
+        .attr {height:80px; background: #f7f7f7;padding-left: 20px;font:12px/3 "";margin-bottom:20px;}
+        .attr h4 {font:14px/3 ""; border-bottom: 1px dashed #ccc;}
+        .attr span {margin-right:200px}
     </style>
 </head>
 <body>
@@ -60,15 +83,49 @@
         </section>
         <div id="location" class="layout"></div>
         <section id="main" class="layout">
-            <div class='hizoom gakki'>
-                <img src='imgs/demo1.jpg'/>
+            <div class="main-top">
+                <div class='hizoom gakki'>
+                        <img src='imgs/demo1.jpg'/>
+                </div>
+                <div class="introduce">
+                    <div class="introduce-1">
+                        <div class="goodsId">商品号: &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <p class="price">价格 &nbsp;&nbsp;&nbsp;&nbsp;</p>
+                        <span>配送:&nbsp;&nbsp;&nbsp;&nbsp;上海市虹口区吴淞街道&nbsp;&nbsp;&nbsp;<s class="fee">商家承担运费</s></span>
+                        <p><i>服务:</i>&nbsp;&nbsp;&nbsp;&nbsp;本商品由邮乐网提供进行相关配送和售后等服务</p>
+                        <p>规格:&nbsp;&nbsp;&nbsp;&nbsp;<span><b>1*1000</b></p>
+                        <p>数量:&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" value="1" class="number"/></p>
+                        <div class="button">
+                            <a>立即购买</a> 
+                            <a class="cartJoin">加入购物车</a>
+                        </div>
+                    </div>       
+                </div>
+                
             </div>
-            <div class="introduce">
-                <h3>及解决打卡积分兑换尽快哈</h3>
+            <ul></ul>
+        </section>
+        <section class="tab layout">
+            <ul>
+                <li class="active">商品详情</li>
+                <li>商品评论</li>
+                <li>物流配送</li>
+
+            </ul>
+            <div class="attr">
+                <h4>商品属性</h4>
+                <p><span>产地: 山东</span> <span>重量: 1.1kg以下</span> <span>包装方式: 筒装</span></p>
             </div>
-            
-            
-               
+            <div class="show">
+                <div class="detail"></div>
+                <div class="comment">
+                    <img src="imgs/comment.png"/>
+                </div>
+                <div class="express">
+                    <img src="imgs/express.png"/>
+                </div>
+            </div>
+
         </section>
     <footer></footer>
 </body>
@@ -94,17 +151,59 @@
     success: function (data) {
         var id = getCookie("id");
         var str = "";
+        var title = "";
+        var str3 = "";
         for (var i=0;i<data.length;i++){
             if(data[i].goodsId ==id){
-                console.log(data[i].img);
                 str =`<img src="${data[i].img}"/>`
                 $(".hizoom .small").children("img").attr("src",data[i].img);
                 $(".big").children("img").attr("src",data[i].img);
                 var str2 = `<p>当前位置&nbsp;》&nbsp;新鲜水果&nbsp;》&nbsp;${typeChoose}&nbsp;》&nbsp;${data[i].name}</p>`;
-   
+                title = `<h3>${data[i].name}</h3>`
+                var ids = `<span>${id}</span>`
+                var price = `<span>￥${data[i].price}</span>`
+                str3 =`
+                        <li><img src="${data[i].img}"/></li>
+                        <li><img src="${data[i].img2}"/></li>
+                        <li><img src="${data[i].img3}"/></li>
+                        <li><img src="${data[i].img4}"/></li>
+                        `
             }
         }
         $("#location").append(str2);
+        $(".introduce").prepend(title);
+        $(".goodsId").append(ids);  
+        $(".price").append(price);
+        $("#main").children("ul").append(str3);
+
+        
+        var ass="";
+        for (var i=0;i<data.length;i++){
+            if(data[i].goodsId ==id){
+                var arr = data[i].detail.split(",");
+                for(var j = 0;j<arr.length;j++){
+                    ass += `<img src="${arr[j]}"/>`;
+                }
+            }
+        }
+        console.log(arr);
+        
+        $(".detail").append(ass);
+        console.log(data[0].detail.split(",")) 
+        $("#main").children("ul").children("li").on("click",function(){
+            var src= $("#main").children("ul").children("li").eq($(this).index()).children("img").attr("src");
+            $(".hizoom .small").children("img").attr("src",src);
+            $(".big").children("img").attr("src",src);
+            
+        })
+        
+        $(".tab").children("ul").children("li").on("click",function(){
+            console.log($(this).index());
+            $(".tab").children("ul").children("li").eq($(this).index()).addClass("active").siblings().removeClass("active");
+            $(".show").children("div").eq($(this).index()).css("display","block").siblings().css("display","none");
+        })
+        $(".cart").children("s").html(getCookie("cartlength"));
+        cartAdd();
     },
     error: function (a, b, c) {
         console.log(b)
@@ -112,7 +211,44 @@
     }
 })
     var typeChoose = getCookie("type");
-    
+    //购物车功能：点击加入购物车 
+    // 1.  创建一个数组，把当前cookie里面有的商品拿出来json。parse转成数组，
+    //     数组里面加入这个商品的id和数量，判定这个商品是否是第一次加入，
+    //     如果是数量为1， 如果不是，数量++; 然后通过json。stringfy转成字符串 再放进cookie里面
+    // 2.  更新当前购物车上的信息， 遍历数组得到；
+    function cartAdd(){
+            var cart=[];
+        $(".cartJoin").on("click",function(){
+            if(!getCookie("cart")){
+                cart.push({
+                    id: getCookie("id"),
+                    num:1
+                })
+            }else{
+                var onoff= true;
+                cart = JSON.parse(getCookie("cart"));
+                for(var i=0;i<cart.length;i++){
+                    if(cart[i].id==getCookie("id")){
+                        cart[i].num ++;
+                        onoff= false;
+                    }
+                }
+                if(onoff){
+                    cart.push({
+                    id: getCookie("id"),
+                    num:1
+                    })
+                }
 
+            }
+            setCookie("cart",JSON.stringify(cart));
+            
+            
+            $(".cart").children("s").html(cart.length);
+            setCookie("cartlength",cart.length);
+            alert("添加购物车成功");
+        })
+        
+    }
 </script>
 </html>
