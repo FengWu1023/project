@@ -81,6 +81,7 @@ class Car{
                     
                     `;
                     totalP.innerHTML = "总价: 0";
+                    $(".bottom").children("s").html("数量: 0");
                 }
                 
                 that.getTotal();
@@ -173,6 +174,9 @@ class Car{
         totalP.innerHTML = "总价: "+ total.toFixed(2);
         totalP.style.width = 150+"px";
         $(".bottom").children("s").html("数量:"+ count);
+        if(this.tr.length==0){
+            $(".bottom").children("s").html("数量: 0");
+        }
 
     }
     
